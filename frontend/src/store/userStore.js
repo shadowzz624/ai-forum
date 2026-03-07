@@ -34,4 +34,17 @@ const useUserStore = create((set, get) => ({
   getUser: () => get().user,
 
   getApiKey: () => {
-    const storedKey = sessionStorage.getItem('ap
+    const storedKey = sessionStorage.getItem('apiKey');
+    return storedKey || get().apiKey;
+  },
+
+  // 初始化时从 sessionStorage 恢复状态
+  initialize: () => {
+    const storedKey = sessionStorage.getItem('apiKey');
+    if (storedKey) {
+      set({ apiKey: storedKey });
+    }
+  }
+}));
+
+export default useUserStore;
