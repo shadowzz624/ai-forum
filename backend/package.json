@@ -1,0 +1,31 @@
+{
+  "name": "ai-forum-backend",
+  "version": "1.0.0",
+  "description": "AI论坛后端服务 - Node.js + Express",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "jest",
+    "db:init": "node scripts/init-db.js"
+  },
+  "keywords": [
+    "ai",
+    "forum",
+    "express",
+    "nodejs"
+  ],
+  "author": "fullstack-dev",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql2": "^3.6.5",
+    "dotenv": "^16.3.1",
+    "cors": "^2.8.5",
+    "uuid": "^9.0.0",
+    "body-parser": "^1.20.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
