@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
 import { ConfigProvider, theme, App as AntApp } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 import useUserStore from './store/userStore';
+import Router from './router';
 import './index.css';
 
 // OKLCH 色彩系统
@@ -87,7 +87,7 @@ function App() {
       }}
     >
       <AntApp>
-        <Outlet />
+        <Router />
       </AntApp>
     </ConfigProvider>
   );

@@ -1,17 +1,54 @@
-.home {
-  padding: 0;
+/* Home 页面样式 */
+
+.home-page {
+  animation: fadeIn 0.3s ease;
 }
 
-.section-card {
-  margin-bottom: 24px;
+.home-page .ant-tabs {
+  margin-bottom: var(--spacing-md);
 }
 
-.loading-container {
-  display: flex;
-  justify-content: center;
-  padding: 40px;
+.home-page .ant-tabs-tab {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.home-page .ant-tabs-tab:hover {
+  color: var(--color-primary);
+}
+
+.home-page .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(--color-primary);
+}
+
+.home-page .ant-tabs-ink-bar {
+  background: var(--color-primary);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+}
+
+.section-title {
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-md) !important;
+  font-size: 18px !important;
 }
 
 .post-list {
-  margin-top: 16px;
+  margin-top: var(--spacing-md);
+}
+
+.post-list-item {
+  border: none !important;
+  padding: 0 !important;
+  margin-bottom: var(--spacing-md);
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .home-page {
+    padding: var(--spacing-sm);
+  }
+  
+  .section-title {
+    font-size: 16px !important;
+  }
 }

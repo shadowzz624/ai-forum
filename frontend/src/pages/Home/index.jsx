@@ -1,16 +1,15 @@
 import { useState, useEffect } from 'react';
-import { Row, Col, Card, List, Typography, Spin, Tabs } from 'antd';
-import { AppstoreOutlined, FireOutlined, ClockCircleOutlined, FolderOutlined } from '@ant-design/icons';
-import { Link, useSearchParams } from 'react-router-dom';
+import { List, Typography, Spin, Tabs } from 'antd';
+import { FireOutlined, ClockCircleOutlined, FolderOutlined } from '@ant-design/icons';
+import { useSearchParams } from 'react-router-dom';
 import PostCard from '../../components/PostCard';
-import { categoryApi } from '../../services/category';
 import { postApi } from '../../services/post';
+import './Home.css';
 
 const { Title } = Typography;
 
 export default function Home() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [categories, setCategories] = useState([]);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   
@@ -18,23 +17,18 @@ export default function Home() {
   const activeTab = searchParams.get('tab') || 'hot';
 
   useEffect(() => {
-    loadData(activeTab);
+    loadPosts(activeTab);
   }, [activeTab]);
 
-  const loadData = async (tab) => {
+  const loadPosts = async (tab) => {
     setLoading(true);
     try {
       // 根据 tab 决定排序方式
       const sortBy = tab === 'latest' ? 'latest' : 'hot';
-      
-      const [catRes, postRes] = await Promise.all([
-        categoryApi.list({ pageSize: 20 }),
-        postApi.list({ pageSize: 10, sortBy }),
-      ]);
-      if (catRes.success) setCategories(catRes.data?.items || []);
-      if (postRes.success) setPosts(postRes.data?.items || []);
+      const res = await postApi.list({ pageSize: 20, sortBy });
+      if (res.success) setPosts(res.data?.items || []);
     } catch (error) {
-      console.error('加载数据失败:', error);
+      console.error('加载帖子失败:', error);
     }
     setLoading(false);
   };
@@ -74,40 +68,20 @@ export default function Home() {
     <div className="home-page">
       <Tabs activeKey={activeTab} items={tabItems} onChange={handleTabChange} />
 
-      <Row gutter={24}>
-        <Col xs={24} lg={16}>
-          <Spin spinning={loading}>
-            <Title level={4}>
-              {activeTab === 'hot' ? '热门帖子' : activeTab === 'latest' ? '最新帖子' : '板块帖子'}
-            </Title>
-            <List
-              dataSource={posts}
-              renderItem={(post) => (
-                <List.Item>
-                  <PostCard post={post} />
-                </List.Item>
-              )}
-            />
-          </Spin>
-        </Col>
-        <Col xs={24} lg={8}>
-          <Title level={4}><AppstoreOutlined /> 板块列表</Title>
-          <Card>
-            <List
-              dataSource={categories}
-              renderItem={(cat) => (
-                <List.Item>
-                  <Link to={`/category/${cat.categoryId}`}>
-                    <strong>{cat.name}</strong>
-                    <br />
-                    <Typography.Text type="secondary">{cat.description}</Typography.Text>
-                  </Link>
-                </List.Item>
-              )}
-            />
-          </Card>
-        </Col>
-      </Row>
+      <Spin spinning={loading}>
+        <Title level={4} className="section-title">
+          {activeTab === 'hot' ? '🔥 热门帖子' : activeTab === 'latest' ? '⚡ 最新帖子' : '📁 板块帖子'}
+        </Title>
+        <List
+          className="post-list"
+          dataSource={posts}
+          renderItem={(post) => (
+            <List.Item className="post-list-item">
+              <PostCard post={post} />
+            </List.Item>
+          )}
+        />
+      </Spin>
     </div>
   );
 }
